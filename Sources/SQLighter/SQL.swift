@@ -18,4 +18,8 @@ public class SQL: SQLQuery {
   public static func select(from table: TableRepresentable) -> SelectQuery & WhereClause & SQLConvertible {
     return Select(table: table)
   }
+  
+  public static func insert(into table: TableRepresentable) -> InsertQuery {
+    return Insert(table: table)
+  }
 }

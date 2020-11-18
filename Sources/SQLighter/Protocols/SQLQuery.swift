@@ -6,4 +6,6 @@ public protocol SQLQuery {
   
   static func select(from table: TableRepresentable, as alias: String) -> SelectQuery & WhereClause & SQLConvertible
   static func select(from table: TableRepresentable) -> SelectQuery & WhereClause & SQLConvertible
+  
+  static func insert(into table: TableRepresentable) -> InsertQuery
 }
