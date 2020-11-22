@@ -2,14 +2,6 @@ import XCTest
 @testable import SQLighter
 
 final class SelectTests: XCTestCase {
-  static var allTests = [
-    ("testSelectAll", testSelectAll),
-    ("testSelectAllAliased", testSelectAllAliased),
-    ("testSelectColumn", testSelectColumn),
-    ("testSelectColumnAliased", testSelectColumnAliased),
-    ("testSelectAliasedTable", testSelectAliasedTable)
-  ]
-  
   func testSelectAll() {
     let result = "SELECT * FROM User"
     let sql = SQL.select(from: "User")

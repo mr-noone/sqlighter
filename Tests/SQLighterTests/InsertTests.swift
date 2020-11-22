@@ -2,14 +2,6 @@ import XCTest
 @testable import SQLighter
 
 final class InsertTests: XCTestCase {
-  static var allTests = [
-    ("testInsertSingleRowWithoutColumns", testInsertSingleRowWithoutColumns),
-    ("testInsertMultipleRowsWithoutColumns", testInsertMultipleRowsWithoutColumns),
-    ("testInsertSingleRowWithColumns", testInsertSingleRowWithColumns),
-    ("testInsertMultipleRowsWithColumns", testInsertMultipleRowsWithColumns),
-    ("testInsertNullValues", testInsertNullValues)
-  ]
-  
   func testInsertSingleRowWithoutColumns() {
     let result = "INSERT INTO User VALUES (1, 'abc')"
     let sql = SQL
