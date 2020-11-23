@@ -1,7 +1,7 @@
 import Foundation
 
 struct Table {
-  let name: TableRepresentable
+  let name: SQLTable
   let alias: String?
   let columns: [Column]
 }

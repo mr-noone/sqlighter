@@ -5,13 +5,13 @@ final class SelectTests: XCTestCase {
   func testSelectAll() {
     let result = "SELECT * FROM User"
     let sql = SQL.select(from: "User")
-    XCTAssertEqual(sql.trim(), result)
+    XCTAssertEqual(sql.sqlString(), result)
   }
   
   func testSelectAllAliased() {
     let result = "SELECT u.* FROM User AS u"
     let sql = SQL.select(from: "User", as: "u")
-    XCTAssertEqual(sql.trim(), result)
+    XCTAssertEqual(sql.sqlString(), result)
   }
   
   func testSelectColumn() {
@@ -20,7 +20,7 @@ final class SelectTests: XCTestCase {
       .select(column: "id")
       .column("name")
       .from(table: "User")
-    XCTAssertEqual(sql.trim(), result)
+    XCTAssertEqual(sql.sqlString(), result)
   }
   
   func testSelectColumnAliased() {
@@ -29,7 +29,7 @@ final class SelectTests: XCTestCase {
       .select(column: "id", as: "_id")
       .column("name", as: "_name")
       .from(table: "User")
-    XCTAssertEqual(sql.trim(), result)
+    XCTAssertEqual(sql.sqlString(), result)
   }
   
   func testSelectAliasedTable() {
@@ -37,6 +37,6 @@ final class SelectTests: XCTestCase {
     let sql = SQL
       .select(column: "id")
       .from(table: "User", as: "u")
-    XCTAssertEqual(sql.trim(), result)
+    XCTAssertEqual(sql.sqlString(), result)
   }
 }

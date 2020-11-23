@@ -1,6 +1,6 @@
 import Foundation
 
 struct Column {
-  let name: ColumnRepresentable
+  let name: SQLColumn
   let alias: String?
 }
