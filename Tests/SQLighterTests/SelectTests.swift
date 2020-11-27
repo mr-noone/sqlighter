@@ -39,4 +39,10 @@ final class SelectTests: XCTestCase {
       .from(table: "User", as: "u")
     XCTAssertEqual(sql.sqlString(), result)
   }
+  
+  func testSelectWhereClause() {
+    let sql = SQL.select(from: "User").where("id" == 12)
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User WHERE id = ?")
+    XCTAssertEqual(sql.sqlString(), "SELECT * FROM User WHERE id = 12")
+  }
 }

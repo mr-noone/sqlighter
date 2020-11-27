@@ -1,6 +1,6 @@
 import Foundation
 
-final class Select: SQL, SelectQuery {
+final class Select: Where, SelectQuery {
   // MARK: - Properties
   
   private var buffer = [Column]()
@@ -40,14 +40,14 @@ final class Select: SQL, SelectQuery {
     return self
   }
   
-  func from(table name: SQLTable, as alias: String) -> SelectQuery & SQLConvertible {
+  func from(table name: SQLTable, as alias: String) -> SelectQuery & WhereClause & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", alias: nil)]
     select.append(.init(name: name, alias: alias, columns: columns))
     buffer = []
     return self
   }
   
-  func from(table name: SQLTable) -> SelectQuery & SQLConvertible {
+  func from(table name: SQLTable) -> SelectQuery & WhereClause & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", alias: nil)]
     select.append(.init(name: name, alias: nil, columns: columns))
     buffer = []
@@ -69,9 +69,12 @@ final class Select: SQL, SelectQuery {
       "\($0.name.table)\($0.alias == nil ? "" : " AS \($0.alias!)")"
     }.joined(separator: ", ")
     
-    let sql = ["SELECT", columns, "FROM", tables]
+    let whereQuery = super.sqlQuery()
+    
+    let sql = ["SELECT", columns, "FROM", tables, whereQuery.sql]
+      .filter { !$0.isEmpty }
       .joined(separator: " ")
     
-    return (sql: sql, args: [])
+    return (sql: sql, args: whereQuery.args)
   }
 }
