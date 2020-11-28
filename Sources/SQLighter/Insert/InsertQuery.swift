@@ -1,9 +1,5 @@
 import Foundation
 
-public protocol ValuesQuery {
-  func values(_ values: SQLValueConvertible?...) -> ValuesQuery & SQLConvertible
-}
-
-public protocol InsertQuery: ValuesQuery {
+public protocol InsertQuery: InsertValue {
   func column<C: SQLColumn>(_ names: C...) -> InsertQuery
 }

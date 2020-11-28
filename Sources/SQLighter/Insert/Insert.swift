@@ -9,8 +9,8 @@ final class Insert: SQL, InsertQuery {
   
   // MARK: - Inits
   
-  init(table name: SQLTable) {
-    self.table = name
+  init(into table: SQLTable) {
+    self.table = table
   }
   
   // MARK: - InsertQuery
@@ -22,7 +22,7 @@ final class Insert: SQL, InsertQuery {
     return self
   }
   
-  func values(_ values: SQLValueConvertible?...) -> SQLConvertible & ValuesQuery {
+  func values(_ values: SQLValueConvertible?...) -> SQLConvertible & InsertValue {
     self.values.append(values)
     return self
   }
