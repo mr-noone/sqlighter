@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
   name: "SQLighter",
   products: [
-    .library(name: "SQLighter", targets: ["SQLighter"]),
+    .library(name: "SQLighter", targets: ["SQLighter"])
   ],
   dependencies: [],
   targets: [
