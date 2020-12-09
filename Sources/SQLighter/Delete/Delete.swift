@@ -3,7 +3,7 @@ import Foundation
 final class Delete: Where, DeleteQuery {
   // MARK: - Properties
   
-  private var table: SQLTable
+  private let table: SQLTable
   
   // MARK: - Inits
   
