@@ -8,7 +8,7 @@ final class TableUnique: TableConstraint {
   // MARK: - SQLRepresentable
   
   override var sqlString: String {
-    let columns = self.columns.map { $0.column }.joined(separator: ", ")
+    let columns = self.columns.map { $0.sqlString }.joined(separator: ", ")
     return [super.sqlString, "UNIQUE", "(\(columns))"]
       .filter { !$0.isEmpty }
       .joined(separator: " ")

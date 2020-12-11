@@ -1,8 +1,7 @@
 import Foundation
 
 extension String: SQLTable, SQLColumn {
-  public var column: String { self }
-  public var table: String { self }
+  public var sqlString: String { self }
 }
 
 extension String {

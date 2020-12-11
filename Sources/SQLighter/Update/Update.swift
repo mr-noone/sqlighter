@@ -42,7 +42,7 @@ final class Update: Where, UpdateQuery, UpdateValue {
     
     let whereQuery = super.sqlQuery()
     let args = values + whereQuery.args
-    let sql = ["UPDATE", table.table, "SET", set, whereQuery.sql]
+    let sql = ["UPDATE", table.sqlString, "SET", set, whereQuery.sql]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     

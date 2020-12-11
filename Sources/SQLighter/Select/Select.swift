@@ -61,12 +61,12 @@ final class Select: Where, SelectQuery {
       let tAlias = $0.alias == nil ? "" : "\($0.alias!)."
       return $0.columns.map {
         let cAlias = $0.alias == nil ? "" : " AS \($0.alias!)"
-        return "\(tAlias)\($0.name.column)\(cAlias)"
+        return "\(tAlias)\($0.name.sqlString)\(cAlias)"
       }.joined(separator: ", ")
     }.joined(separator: ", ")
     
     let tables = select.map {
-      "\($0.name.table)\($0.alias == nil ? "" : " AS \($0.alias!)")"
+      "\($0.name.sqlString)\($0.alias == nil ? "" : " AS \($0.alias!)")"
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()

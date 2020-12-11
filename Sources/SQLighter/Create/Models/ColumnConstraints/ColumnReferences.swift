@@ -13,7 +13,7 @@ final class ColumnReferences: ColumnConstraint {
     let onDelete = self.onDelete != nil ? "ON DELETE \(self.onDelete!.sqlString)" : ""
     let onUpdate = self.onUpdate != nil ? "ON UPDATE \(self.onUpdate!.sqlString)" : ""
     
-    return [super.sqlString, "REFERENCES", references.table, onDelete, onUpdate]
+    return [super.sqlString, "REFERENCES", references.sqlString, onDelete, onUpdate]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
   }

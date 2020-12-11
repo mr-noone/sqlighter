@@ -10,7 +10,7 @@ struct InPredicate: Predicate {
   
   func sqlQuery() -> SQLQuery {
     let values = Array(repeating: "?", count: self.values.count).joined(separator: ", ")
-    return (sql: "\(column.column) IN (\(values))", args: self.values)
+    return (sql: "\(column.sqlString) IN (\(values))", args: self.values)
   }
 }
 

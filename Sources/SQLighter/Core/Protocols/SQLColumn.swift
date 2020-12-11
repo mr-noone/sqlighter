@@ -1,5 +1,7 @@
 import Foundation
 
-public protocol SQLColumn {
-  var column: String { get }
+public protocol SQLColumn: SQLRepresentable {}
+
+public extension SQLColumn where Self: CodingKey {
+  var sqlString: String { stringValue }
 }
