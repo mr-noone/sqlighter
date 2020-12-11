@@ -23,7 +23,7 @@ struct ComparisonPredicate: Predicate {
   // MARK: - SQLConvertible
   
   func sqlQuery() -> SQLQuery {
-    let sql = "\(column.column) \(`operator`.sqlString) ?"
+    let sql = "\(column.sqlString) \(`operator`.sqlString) ?"
     return (sql: sql, args: [value])
   }
 }

@@ -11,8 +11,8 @@ final class TableForeignKey: TableConstraint {
   // MARK: - ColumnConstraint
   
   override var sqlString: String {
-    let columns = self.columns.map { $0.column }.joined(separator: ", ")
-    let table = references.table
+    let columns = self.columns.map { $0.sqlString }.joined(separator: ", ")
+    let table = references.sqlString
     
     let onDelete = self.onDelete != nil ? "ON DELETE \(self.onDelete!.sqlString)" : ""
     let onUpdate = self.onUpdate != nil ? "ON UPDATE \(self.onUpdate!.sqlString)" : ""

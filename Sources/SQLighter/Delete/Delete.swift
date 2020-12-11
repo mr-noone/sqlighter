@@ -16,7 +16,7 @@ final class Delete: Where, DeleteQuery {
   override func sqlQuery() -> SQLQuery {
     let whereQuery = super.sqlQuery()
     let args = whereQuery.args
-    let sql = ["DELETE", "FROM", table.table, whereQuery.sql]
+    let sql = ["DELETE", "FROM", table.sqlString, whereQuery.sql]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     return (sql: sql, args: args)

@@ -30,7 +30,7 @@ final class Insert: SQL, InsertQuery {
   // MARK: - SQLConvertible
   
   override func sqlQuery() -> SQLQuery {
-    let columns = self.columns.isEmpty ? "" : self.columns.map { $0.name.column }
+    let columns = self.columns.isEmpty ? "" : self.columns.map { $0.name.sqlString }
       .joined(separator: ", ")
       .inserted("(", offser: 0)
       .appending(")")
@@ -40,7 +40,7 @@ final class Insert: SQL, InsertQuery {
       .map { "(\($0))" }
       .joined(separator: ", ")
     
-    let sql = ["INSERT", "INTO", table.table, columns, "VALUES", values]
+    let sql = ["INSERT", "INTO", table.sqlString, columns, "VALUES", values]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     

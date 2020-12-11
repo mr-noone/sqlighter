@@ -10,7 +10,7 @@ struct ColumnInfo: SQLRepresentable {
       .map { $0.sqlString }
       .joined(separator: " ")
     
-    return [name.column, type.sqlString, constraints]
+    return [name.sqlString, type.sqlString, constraints]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
   }
