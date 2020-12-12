@@ -22,6 +22,13 @@ final class Insert: SQL, InsertQuery {
     return self
   }
   
+  func column<C>(_ names: [C]) -> InsertQuery where C : SQLColumn {
+    columns.append(contentsOf: names.map {
+      .init(name: $0, alias: nil)
+    })
+    return self
+  }
+  
   func values(_ values: SQLValueConvertible?...) -> SQLConvertible & InsertValue {
     self.values.append(values)
     return self
