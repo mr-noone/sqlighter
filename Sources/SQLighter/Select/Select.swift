@@ -1,6 +1,6 @@
 import Foundation
 
-final class Select: Where, SelectQuery {
+class Select: Where, SelectQuery {
   // MARK: - Properties
   
   private var buffer = [Column]()
