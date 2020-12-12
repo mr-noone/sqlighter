@@ -15,14 +15,14 @@ final class Insert: SQL, InsertQuery {
   
   // MARK: - InsertQuery
   
-  func column<C>(_ names: C...) -> InsertQuery where C : SQLColumn {
+  func column<C>(_ names: C...) -> InsertQuery & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
       .init(name: $0, alias: nil)
     })
     return self
   }
   
-  func column<C>(_ names: [C]) -> InsertQuery where C : SQLColumn {
+  func column<C>(_ names: [C]) -> InsertQuery & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
       .init(name: $0, alias: nil)
     })
@@ -42,10 +42,19 @@ final class Insert: SQL, InsertQuery {
       .inserted("(", offser: 0)
       .appending(")")
     
-    let values = self.values
-      .map { $0.map { _ in "?" }.joined(separator: ", ") }
-      .map { "(\($0))" }
-      .joined(separator: ", ")
+    let values: String
+    if !self.values.isEmpty {
+      values = self.values
+        .map { $0.map { _ in "?" }.joined(separator: ", ") }
+        .map { "(\($0))" }
+        .joined(separator: ", ")
+    } else {
+      values = self.columns
+        .map { _ in "?" }
+        .joined(separator: ", ")
+        .inserted("(", offser: 0)
+        .appending(")")
+    }
     
     let sql = ["INSERT", "INTO", table.sqlString, columns, "VALUES", values]
       .filter { !$0.isEmpty }
