@@ -7,4 +7,10 @@ final class UpdateTests: XCTestCase {
     XCTAssertEqual(sql.sqlQuery().sql, "UPDATE User SET id = ?, name = ? WHERE id < ? AND id > ?")
     XCTAssertEqual(sql.sqlString(), "UPDATE User SET id = 11, name = 'John' WHERE id < 12 AND id > 14")
   }
+  
+  func testUpdateWithoutValues() {
+    let sql = SQL.update(table: "User").column("id", "name").where("id" == 11)
+    XCTAssertEqual(sql.sqlQuery().sql, "UPDATE User SET id = ?, name = ? WHERE id = ?")
+    XCTAssertEqual(sql.sqlString(), "UPDATE User SET id = ?, name = ? WHERE id = ?")
+  }
 }
