@@ -16,6 +16,10 @@ final class Update: Where, UpdateQuery, UpdateValue {
   // MARK: - UpdateQuery
   
   func column<C>(_ names: C...) -> UpdateQuery & UpdateValue where C : SQLColumn {
+    return column(names)
+  }
+  
+  func column<C>(_ names: [C]) -> UpdateQuery & UpdateValue where C : SQLColumn {
     columns.append(contentsOf: names.map {
       .init(name: $0, alias: nil)
     })
