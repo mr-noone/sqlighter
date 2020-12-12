@@ -21,6 +21,15 @@ final class InsertTests: XCTestCase {
     XCTAssertEqual(sql.sqlQuery().sql, "INSERT INTO User VALUES (?, ?), (?, ?)")
   }
   
+  func testInsertWithoutColumns() {
+    let sql = SQL
+      .insert(into: "User")
+      .column("id", "name")
+    
+    XCTAssertEqual(sql.sqlString(), "INSERT INTO User (id, name) VALUES (?, ?)")
+    XCTAssertEqual(sql.sqlQuery().sql, "INSERT INTO User (id, name) VALUES (?, ?)")
+  }
+  
   func testInsertSingleRowWithColumns() {
     let sql = SQL
       .insert(into: "User")
