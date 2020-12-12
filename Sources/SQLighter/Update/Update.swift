@@ -15,11 +15,11 @@ final class Update: Where, UpdateQuery, UpdateValue {
   
   // MARK: - UpdateQuery
   
-  func column<C>(_ names: C...) -> UpdateQuery & UpdateValue where C : SQLColumn {
+  func column<C>(_ names: C...) -> UpdateQuery & UpdateValue & WhereClause & SQLConvertible where C : SQLColumn {
     return column(names)
   }
   
-  func column<C>(_ names: [C]) -> UpdateQuery & UpdateValue where C : SQLColumn {
+  func column<C>(_ names: [C]) -> UpdateQuery & UpdateValue & WhereClause & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
       .init(name: $0, alias: nil)
     })
@@ -36,16 +36,21 @@ final class Update: Where, UpdateQuery, UpdateValue {
   // MARK: - SQLConvertible
   
   override func sqlQuery() -> SQLQuery {
-    guard columns.count == values.count else {
-      fatalError()
-    }
-    
     let set = columns.map {
       "\($0.name) = ?"
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()
-    let args = values + whereQuery.args
+    let args: [SQLValueConvertible?]
+    
+    if values.count == columns.count {
+      args = values + whereQuery.args
+    } else if values.isEmpty {
+      args = []
+    } else {
+      fatalError("values count must equal to columns count")
+    }
+    
     let sql = ["UPDATE", table.sqlString, "SET", set, whereQuery.sql]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
