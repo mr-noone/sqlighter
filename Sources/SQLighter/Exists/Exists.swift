@@ -6,6 +6,6 @@ final class Exists: Select, ExistsQuery {
   override func sqlQuery() -> SQLQuery {
     let select = super.sqlQuery()
     let sql = "SELECT EXISTS (\(select.sql))"
-    return (sql: sql, args: select.args)
+    return .init(sql: sql, args: select.args)
   }
 }

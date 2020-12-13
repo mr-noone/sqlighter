@@ -41,7 +41,7 @@ struct CompoundPredicate: Predicate {
     let args = lhsQuery.args + rhsQuery.args
     let sql = "\(lhsSQL) \(`operator`.sqlString) \(rhsSQL)"
     
-    return (sql: sql, args: args)
+    return .init(sql: sql, args: args)
   }
 }
 

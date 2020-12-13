@@ -161,8 +161,6 @@ final class Create: SQL, CreateQuery, ColumnConstraintQuery, TableConstraintQuer
     case false: query = "CREATE TABLE"
     }
     
-    let sql = "\(query) \(table.sqlString) (\(info))"
-    
-    return (sql: sql, args: [])
+    return .init(sql: "\(query) \(table.sqlString) (\(info))", args: [])
   }
 }

@@ -56,12 +56,11 @@ final class Insert: SQL, InsertQuery {
         .appending(")")
     }
     
+    let args = Arguments(array: self.values.flatMap { $0 })
     let sql = ["INSERT", "INTO", table.sqlString, columns, "VALUES", values]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     
-    let args = self.values.flatMap { $0 }
-    
-    return (sql: sql, args: args)
+    return .init(sql: sql, args: args)
   }
 }

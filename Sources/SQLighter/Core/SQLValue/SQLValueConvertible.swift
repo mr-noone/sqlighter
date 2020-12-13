@@ -5,3 +5,9 @@ public protocol SQLValueConvertible {
   var sqlLiteral: String { get }
   init?(_ sqlValue: SQLValue)
 }
+
+public extension SQLValueConvertible {
+  var sqlLiteral: String {
+    sqlValue.sqlLiteral
+  }
+}

@@ -75,6 +75,6 @@ class Select: Where, SelectQuery {
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     
-    return (sql: sql, args: whereQuery.args)
+    return .init(sql: sql, args: whereQuery.args)
   }
 }
