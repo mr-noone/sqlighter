@@ -32,8 +32,8 @@ class Where: SQL, WhereClause, WhereQuery {
   
   override func sqlQuery() -> SQLQuery {
     guard let query = predicate?.sqlQuery() else {
-      return (sql: "", args: [])
+      return .init(sql: "", args: [])
     }
-    return (sql: "WHERE \(query.sql)", args: query.args)
+    return .init(sql: "WHERE \(query.sql)", args: query.args)
   }
 }

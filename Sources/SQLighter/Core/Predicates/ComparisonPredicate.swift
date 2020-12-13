@@ -24,7 +24,7 @@ struct ComparisonPredicate: Predicate {
   
   func sqlQuery() -> SQLQuery {
     let sql = "\(column.sqlString) \(`operator`.sqlString) ?"
-    return (sql: sql, args: [value])
+    return .init(sql: sql, args: [value])
   }
 }
 

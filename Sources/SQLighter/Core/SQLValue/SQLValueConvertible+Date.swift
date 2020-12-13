@@ -12,7 +12,6 @@ extension DateFormatter {
 
 public extension SQLValueConvertible where Self == Date {
   var sqlValue: SQLValue { .text(DateFormatter.iso8601.string(from: self)) }
-  var sqlLiteral: String { "'\(DateFormatter.iso8601.string(from: self))'" }
   
   init?(_ sqlValue: SQLValue) {
     guard

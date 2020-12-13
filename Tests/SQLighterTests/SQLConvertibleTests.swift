@@ -44,7 +44,7 @@ final class SQLConvertibleTests: XCTestCase {
   }
   
   func testRealSQLString() {
-    XCTAssertEqual(Float(3.2).sqlLiteral, "3.2")
+    XCTAssertEqual(Float(3.2).sqlLiteral, "3.200000047683716")
     XCTAssertEqual(Double(3.2).sqlLiteral, "3.2")
   }
   

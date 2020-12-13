@@ -41,10 +41,10 @@ final class Update: Where, UpdateQuery, UpdateValue {
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()
-    let args: [SQLValueConvertible?]
+    let args: Arguments
     
     if values.count == columns.count {
-      args = values + whereQuery.args
+      args = Arguments(array: values) + whereQuery.args
     } else if values.isEmpty {
       args = []
     } else {
@@ -55,6 +55,6 @@ final class Update: Where, UpdateQuery, UpdateValue {
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     
-    return (sql: sql, args: args)
+    return .init(sql: sql, args: args)
   }
 }

@@ -19,6 +19,6 @@ final class Delete: Where, DeleteQuery {
     let sql = ["DELETE", "FROM", table.sqlString, whereQuery.sql]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
-    return (sql: sql, args: args)
+    return .init(sql: sql, args: args)
   }
 }

@@ -2,7 +2,6 @@ import Foundation
 
 public extension SQLValueConvertible where Self: StringProtocol {
   var sqlValue: SQLValue { .text(String(self)) }
-  var sqlLiteral: String { "'\(self)'" }
   
   init?(_ sqlValue: SQLValue) {
     if case let SQLValue.text(value) = sqlValue {

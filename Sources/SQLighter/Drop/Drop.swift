@@ -28,6 +28,6 @@ final class Drop: SQL, DropQuery {
     case false: query = "DROP TABLE"
     }
     
-    return (sql: "\(query) \(table.sqlString)", args: [])
+    return .init(sql: "\(query) \(table.sqlString)", args: [])
   }
 }
