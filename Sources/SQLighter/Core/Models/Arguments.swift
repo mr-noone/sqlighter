@@ -40,7 +40,7 @@ public struct Arguments {
     return result
   }
   
-  static func + (lhs: Arguments, rhs: Arguments) -> Arguments {
+  public static func + (lhs: Arguments, rhs: Arguments) -> Arguments {
     return Arguments(array: lhs.values + rhs.values)
   }
 }
