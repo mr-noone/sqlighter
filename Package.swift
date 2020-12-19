@@ -4,12 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "SQLighter",
-    products: [
-        .library(name: "SQLighter", targets: ["SQLighter"]),
-    ],
-    dependencies: [],
-    targets: [
-        .target(name: "SQLighter", dependencies: [])
-    ]
+  name: "SQLighter",
+  products: [
+    .library(name: "SQLighter", targets: ["SQLighter"])
+  ],
+  dependencies: [],
+  targets: [
+    .target(name: "SQLighter", dependencies: []),
+    .testTarget(name: "SQLighterTests", dependencies: ["SQLighter"])
+  ]
 )
