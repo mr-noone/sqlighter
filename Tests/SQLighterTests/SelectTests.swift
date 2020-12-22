@@ -45,4 +45,16 @@ final class SelectTests: XCTestCase {
     XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User WHERE id = ?")
     XCTAssertEqual(sql.sqlString(), "SELECT * FROM User WHERE id = 12")
   }
+  
+  func testLimitSelect() {
+    let sql = SQL.select(column: "id").from(table: "User").limit(10)
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT id FROM User LIMIT 10")
+    XCTAssertEqual(sql.sqlString(), "SELECT id FROM User LIMIT 10")
+  }
+  
+  func testOffsetSelect() {
+    let sql = SQL.select(from: "User").limit(10, offset: 20)
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User LIMIT 10 OFFSET 20")
+    XCTAssertEqual(sql.sqlString(), "SELECT * FROM User LIMIT 10 OFFSET 20")
+  }
 }

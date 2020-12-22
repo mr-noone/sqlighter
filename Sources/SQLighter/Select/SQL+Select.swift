@@ -9,11 +9,11 @@ public extension SQL {
     return Select(column: name, as: alias)
   }
   
-  static func select(from table: SQLTable, as alias: String) -> SelectQuery & WhereClause & SQLConvertible {
+  static func select(from table: SQLTable, as alias: String) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
     return Select(table: table, as: alias)
   }
   
-  static func select(from table: SQLTable) -> SelectQuery & WhereClause & SQLConvertible {
+  static func select(from table: SQLTable) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
     return Select(table: table)
   }
 }

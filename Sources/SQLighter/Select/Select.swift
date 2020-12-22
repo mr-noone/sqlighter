@@ -1,10 +1,12 @@
 import Foundation
 
-class Select: Where, SelectQuery {
+class Select: Where, SelectQuery, LimitQuery {
   // MARK: - Properties
   
   private var buffer = [Column]()
   private var select = [Table]()
+  private var limit: UInt = 0
+  private var offset: UInt = 0
   
   // MARK: - Inits
   
@@ -40,17 +42,30 @@ class Select: Where, SelectQuery {
     return self
   }
   
-  func from(table name: SQLTable, as alias: String) -> SelectQuery & WhereClause & SQLConvertible {
+  func from(table name: SQLTable, as alias: String) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", alias: nil)]
     select.append(.init(name: name, alias: alias, columns: columns))
     buffer = []
     return self
   }
   
-  func from(table name: SQLTable) -> SelectQuery & WhereClause & SQLConvertible {
+  func from(table name: SQLTable) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", alias: nil)]
     select.append(.init(name: name, alias: nil, columns: columns))
     buffer = []
+    return self
+  }
+  
+  // MARK: - LimitQuery
+  
+  func limit(_ limit: UInt) -> SQLConvertible {
+    self.limit = limit
+    return self
+  }
+  
+  func limit(_ limit: UInt, offset: UInt) -> SQLConvertible {
+    self.limit = limit
+    self.offset = offset
     return self
   }
   
@@ -70,8 +85,10 @@ class Select: Where, SelectQuery {
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()
+    let limit = self.limit > 0 ? "LIMIT \(self.limit)" : ""
+    let offset = self.offset > 0 ? "OFFSET \(self.offset)" : ""
     
-    let sql = ["SELECT", columns, "FROM", tables, whereQuery.sql]
+    let sql = ["SELECT", columns, "FROM", tables, whereQuery.sql, limit, offset]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     
