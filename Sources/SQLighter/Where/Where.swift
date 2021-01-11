@@ -12,6 +12,16 @@ class Where: SQL, WhereClause, WhereQuery {
     return self
   }
   
+  func `where`(sql expression: String) -> SQLConvertible {
+    self.predicate = ExpressionPredicate(expression: expression, values: [])
+    return self
+  }
+  
+  func `where`(sql expression: String, args: SQLValueConvertible?...) -> SQLConvertible {
+    self.predicate = ExpressionPredicate(expression: expression, values: args)
+    return self
+  }
+  
   func and(_ predicate: Predicate) -> WhereQuery & SQLConvertible {
     guard let lPredicate = self.predicate else {
       fatalError()
