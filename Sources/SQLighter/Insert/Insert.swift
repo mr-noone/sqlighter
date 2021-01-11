@@ -17,14 +17,14 @@ final class Insert: SQL, InsertQuery {
   
   func column<C>(_ names: C...) -> InsertQuery & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
-      .init(name: $0, alias: nil)
+      .init(name: $0, as: nil)
     })
     return self
   }
   
   func column<C>(_ names: [C]) -> InsertQuery & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
-      .init(name: $0, alias: nil)
+      .init(name: $0, as: nil)
     })
     return self
   }
@@ -37,7 +37,7 @@ final class Insert: SQL, InsertQuery {
   // MARK: - SQLConvertible
   
   override func sqlQuery() -> SQLQuery {
-    let columns = self.columns.isEmpty ? "" : self.columns.map { $0.name.sqlString }
+    let columns = self.columns.isEmpty ? "" : self.columns.map { $0.sqlString(with: nil) }
       .joined(separator: ", ")
       .inserted("(", offser: 0)
       .appending(")")
