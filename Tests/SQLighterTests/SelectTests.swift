@@ -40,6 +40,14 @@ final class SelectTests: XCTestCase {
     XCTAssertEqual(sql.sqlString(), result)
   }
   
+  func testSelectAliasedTableAliasedColumn() {
+    let result = "SELECT u.id AS _id FROM User AS u"
+    let sql = SQL
+      .select(column: "id", as: "_id")
+      .from(table: "User", as: "u")
+    XCTAssertEqual(sql.sqlString(), result)
+  }
+  
   func testSelectWhereClause() {
     let sql = SQL.select(from: "User").where("id" == 12)
     XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User WHERE id = ?")
@@ -56,5 +64,20 @@ final class SelectTests: XCTestCase {
     let sql = SQL.select(from: "User").limit(10, offset: 20)
     XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User LIMIT 10 OFFSET 20")
     XCTAssertEqual(sql.sqlString(), "SELECT * FROM User LIMIT 10 OFFSET 20")
+  }
+  
+  func testSelectCountColumn() {
+    let sql = SQL.count(column: "id", as: "_id", distinct: false).from(table: "User", as: "u")
+    XCTAssertEqual(sql.sqlString(), "SELECT count(ALL u.id) AS _id FROM User AS u")
+  }
+  
+  func testSelectCount() {
+    let sql = SQL.count(from: "User")
+    XCTAssertEqual(sql.sqlString(), "SELECT count(*) FROM User")
+  }
+  
+  func testSelectMultipleCountColumn() {
+    let sql = SQL.count(column: "id").count("name").from(table: "User")
+    XCTAssertEqual(sql.sqlString(), "SELECT count(ALL id), count(ALL name) FROM User")
   }
 }
