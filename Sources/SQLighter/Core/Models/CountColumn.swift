@@ -12,11 +12,11 @@ class CountColumn: Column {
     let alias = self.alias != nil ? " AS \(self.alias!)" : ""
     
     if name.sqlString == "*" {
-      return String(format: "count(*)%@", alias)
+      return "count(*)\(alias)"
     } else {
       let distinct = self.distinct ? "DISTINCT" : "ALL"
       let column = [tableAlias, name.sqlString].compactMap { $0 }.joined(separator: ".")
-      return String(format: "count(%@ %@)%@", distinct, column, alias)
+      return "count(\(distinct) \(column))\(alias)"
     }
   }
 }
