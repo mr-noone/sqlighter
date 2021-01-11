@@ -21,7 +21,7 @@ final class Update: Where, UpdateQuery, UpdateValue {
   
   func column<C>(_ names: [C]) -> UpdateQuery & UpdateValue & WhereClause & SQLConvertible where C : SQLColumn {
     columns.append(contentsOf: names.map {
-      .init(name: $0, alias: nil)
+      .init(name: $0, as: nil)
     })
     return self
   }
@@ -37,7 +37,7 @@ final class Update: Where, UpdateQuery, UpdateValue {
   
   override func sqlQuery() -> SQLQuery {
     let set = columns.map {
-      "\($0.name) = ?"
+      "\($0.sqlString(with: nil)) = ?"
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()
