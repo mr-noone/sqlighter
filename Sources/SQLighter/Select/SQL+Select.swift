@@ -17,11 +17,11 @@ public extension SQL {
     return Select(count: table, as: nil, distinct: false)
   }
   
-  static func select(from table: SQLTable, as alias: String) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
+  static func select(from table: SQLTable, as alias: String) -> SelectQuery & WhereClause & OrderByQuery & LimitQuery & SQLConvertible {
     return Select(table: table, as: alias)
   }
   
-  static func select(from table: SQLTable) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
+  static func select(from table: SQLTable) -> SelectQuery & WhereClause & OrderByQuery & LimitQuery & SQLConvertible {
     return Select(table: table)
   }
 }

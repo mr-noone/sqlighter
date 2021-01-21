@@ -1,12 +1,10 @@
 import Foundation
 
-class Select: Where, SelectQuery, LimitQuery {
+class Select: Where, SelectQuery {
   // MARK: - Properties
   
   private var buffer = [Column]()
   private var select = [Table]()
-  private var limit: UInt = 0
-  private var offset: UInt = 0
   
   // MARK: - Inits
   
@@ -63,30 +61,17 @@ class Select: Where, SelectQuery, LimitQuery {
     return self
   }
   
-  func from(table name: SQLTable, as alias: String) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
+  func from(table name: SQLTable, as alias: String) -> SelectQuery & WhereClause & OrderByQuery & LimitQuery & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", as: nil)]
     select.append(.init(name: name, alias: alias, columns: columns))
     buffer = []
     return self
   }
   
-  func from(table name: SQLTable) -> SelectQuery & WhereClause & LimitQuery & SQLConvertible {
+  func from(table name: SQLTable) -> SelectQuery & WhereClause & OrderByQuery & LimitQuery & SQLConvertible {
     let columns = buffer.count > 0 ? buffer : [.init(name: "*", as: nil)]
     select.append(.init(name: name, alias: nil, columns: columns))
     buffer = []
-    return self
-  }
-  
-  // MARK: - LimitQuery
-  
-  func limit(_ limit: UInt) -> SQLConvertible {
-    self.limit = limit
-    return self
-  }
-  
-  func limit(_ limit: UInt, offset: UInt) -> SQLConvertible {
-    self.limit = limit
-    self.offset = offset
     return self
   }
   
@@ -97,15 +82,6 @@ class Select: Where, SelectQuery, LimitQuery {
       table.columns.map { column in
         column.sqlString(with: table.alias)
       }.joined(separator: ", ")
-      
-      
-      
-      
-//      let tAlias = $0.alias == nil ? "" : "\($0.alias!)."
-//      return $0.columns.map {
-//        let cAlias = $0.alias == nil ? "" : " AS \($0.alias!)"
-//        return "\(tAlias)\($0.name.sqlString)\(cAlias)"
-//      }.joined(separator: ", ")
     }.joined(separator: ", ")
     
     let tables = select.map {
@@ -113,10 +89,8 @@ class Select: Where, SelectQuery, LimitQuery {
     }.joined(separator: ", ")
     
     let whereQuery = super.sqlQuery()
-    let limit = self.limit > 0 ? "LIMIT \(self.limit)" : ""
-    let offset = self.offset > 0 ? "OFFSET \(self.offset)" : ""
     
-    let sql = ["SELECT", columns, "FROM", tables, whereQuery.sql, limit, offset]
+    let sql = ["SELECT", columns, "FROM", tables, whereQuery.sql]
       .filter { !$0.isEmpty }
       .joined(separator: " ")
     
