@@ -11,4 +11,11 @@ extension String {
     string.insert(character, at: index)
     return string
   }
+  
+  func inserted(_ substring: String, offser: Int) -> String {
+    var string = self
+    let index = string.index(startIndex, offsetBy: offser)
+    string.insert(contentsOf: substring, at: index)
+    return string
+  }
 }

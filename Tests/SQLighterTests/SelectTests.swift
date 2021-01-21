@@ -54,6 +54,36 @@ final class SelectTests: XCTestCase {
     XCTAssertEqual(sql.sqlString(), "SELECT * FROM User WHERE id = 12")
   }
   
+  func testOrderByColumn() {
+    let sql = SQL.select(from: "User").order(by: "id").order(by: "name")
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id, name")
+  }
+  
+  func testOrderAscColumn() {
+    let sql = SQL.select(from: "User").order(by: "id").ascending().order(by: "name").ascending()
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id ASC, name ASC")
+  }
+  
+  func testOrderDescColumn() {
+    let sql = SQL.select(from: "User").order(by: "id").descending().order(by: "name").descending()
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id DESC, name DESC")
+  }
+  
+  func testOrderNullsFirst() {
+    let sql = SQL.select(from: "User").order(by: "id").nullsFirst().order(by: "name").nullsFirst()
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id NULLS FIRST, name NULLS FIRST")
+  }
+  
+  func testOrderNullsLast() {
+    let sql = SQL.select(from: "User").order(by: "id").nullsLast().order(by: "name").nullsLast()
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id NULLS LAST, name NULLS LAST")
+  }
+  
+  func testOrderAnyColumn() {
+    let sql = SQL.select(from: "User").order(by: "id").ascending().nullsFirst().order(by: "name").descending().nullsLast()
+    XCTAssertEqual(sql.sqlQuery().sql, "SELECT * FROM User ORDER BY id ASC NULLS FIRST, name DESC NULLS LAST")
+  }
+  
   func testLimitSelect() {
     let sql = SQL.select(column: "id").from(table: "User").limit(10)
     XCTAssertEqual(sql.sqlQuery().sql, "SELECT id FROM User LIMIT 10")
