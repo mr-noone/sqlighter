@@ -25,17 +25,37 @@ struct ComparisonPredicate: Predicate {
   
   func sqlQuery() -> SQLQuery {
     let rightOperand: String
+    let `operator`: String
     let arguments: Arguments
+    let sql: String
     
     if let query = expression?.sqlQuery() {
+      `operator` = self.operator.sqlString
       rightOperand = "(\(query.sql))"
       arguments = query.args
     } else {
-      rightOperand = "?"
-      arguments = [value]
+      switch value {
+      case .none where self.operator == .equal:
+        `operator` = "IS NULL"
+        rightOperand = ""
+        arguments = []
+      case .none where self.operator == .notEqual:
+        `operator` = "NOT NULL"
+        rightOperand = ""
+        arguments = []
+      default:
+        `operator` = self.operator.sqlString
+        rightOperand = "?"
+        arguments = [value]
+      }
     }
     
-    let sql = "\(column.sqlString) \(`operator`.sqlString) \(rightOperand)"
+    if rightOperand.isEmpty == false {
+      sql = "\(column.sqlString) \(`operator`) \(rightOperand)"
+    } else {
+      sql = "\(column.sqlString) \(`operator`)"
+    }
+    
     return .init(sql: sql, args: arguments)
   }
 }
