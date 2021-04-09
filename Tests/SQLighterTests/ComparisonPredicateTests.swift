@@ -8,6 +8,11 @@ final class ComparisonPredicateTests: XCTestCase {
     XCTAssertEqual(predicate.sqlString(), "id = 123")
   }
   
+  func testIsNullPredicate() {
+    let predicate = "id" == nil
+    XCTAssertEqual(predicate.sqlQuery().sql, "id IS NULL")
+  }
+  
   func testExpressionEqualPredicate() {
     let predicate = "id" == SQL.select(column: "test_id").from(table: "User").limit(1)
     XCTAssertEqual(predicate.sqlQuery().sql, "id = (SELECT test_id FROM User LIMIT 1)")
@@ -18,6 +23,11 @@ final class ComparisonPredicateTests: XCTestCase {
     let predicate: Predicate = "id" != "str"
     XCTAssertEqual(predicate.sqlQuery().sql, "id != ?")
     XCTAssertEqual(predicate.sqlString(), "id != 'str'")
+  }
+  
+  func testNotNullPredicate() {
+    let predicate: Predicate = "id" != nil
+    XCTAssertEqual(predicate.sqlQuery().sql, "id NOT NULL")
   }
   
   func testExpressionNotEqualPredicate() {
